@@ -2,7 +2,7 @@
 $github_pat = '<GITHUB_PERSONAL_ACCESS_TOKEN>'
 $github_username = '<GITHUB_USERNAME>'
 
-$ue_image_tag='dev-5.5.4'
+$ue_image_tag='dev-slim-5.5.4'
 $server_config='Development'
 $project_file_name='LyraStarterGame'
 $target_file_name='LyraServer'
