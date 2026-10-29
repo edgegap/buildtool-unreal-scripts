@@ -2,10 +2,14 @@
 $github_pat = '<GITHUB_PERSONAL_ACCESS_TOKEN>'
 $github_username = '<GITHUB_USERNAME>'
 
-$ue_image_tag='dev-5.5.4'
+$ue_image_tag='dev-slim-5.5.4'
 $server_config='Development'
 $project_file_name='LyraStarterGame'
 $target_file_name='LyraServer'
+# server maps to cook, separated by '+' (e.g. '/Game/Maps/Arena+/Game/Maps/Lobby'); empty cooks all maps
+$server_maps=''
+# derived data cache options; replace to use your studio's shared DDC
+$ddc_args='-NoSharedDDC -ddc=noshared'
 
 $registry = 'registry.edgegap.com'
 $project = '<REGISTRY_PROJECT>'
@@ -129,6 +133,8 @@ docker build . `
     --build-arg SERVER_CONFIG=$server_config `
     --build-arg PROJECT_FILE_NAME=$project_file_name `
     --build-arg TARGET_FILE_NAME=$target_file_name `
+    --build-arg "SERVER_MAPS=$server_maps" `
+    --build-arg "DDC_ARGS=$ddc_args" `
     $dockerBuildPlatformOption
 
 if ($LASTEXITCODE -ne 0) {
