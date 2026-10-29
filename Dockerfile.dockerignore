@@ -112,6 +112,13 @@ Plugins/**/Intermediate/*
 
 # End of https://www.toptal.com/developers/gitignore/api/unrealengine,git
 
+### Never needed in the build context (can be many GB, sent to Docker on every build) ###
+.git
+.vs
+Packaged
+DerivedDataCache
+Saved
+
 ### Docker ###
 *.dockerignore
 Dockerfile
