@@ -22,6 +22,7 @@ ARG DDC_ARGS="-NoSharedDDC -ddc=noshared"
 # Cache mounts keep compiled code, cooked content and derived data between builds, so later builds only redo what changed.
 # Plugin Intermediate/Binaries folders can't be mounted by name, so they're restored from and saved to one cache.
 # UE-LocalDataCachePath is set inline because Docker drops ENV names containing a hyphen.
+# No -SkipCookingEditorContent: on UE 5.8 it fails the cook ("Content is missing from cook") when engine plugins reference editor content.
 RUN --mount=type=cache,target=/tmp/project/Intermediate,uid=1000,gid=1000 \
     --mount=type=cache,target=/tmp/project/Binaries,uid=1000,gid=1000 \
     --mount=type=cache,target=/tmp/project/Saved,uid=1000,gid=1000 \
@@ -40,7 +41,7 @@ RUN --mount=type=cache,target=/tmp/project/Intermediate,uid=1000,gid=1000 \
     -configuration=${SERVER_CONFIG:-Development} \
     -build -cook -iterate -stage -prereqs -pak -package -archive \
     -utf8output -nodebuginfo $maps -noP4 ${DDC_ARGS} -archivedirectory=/tmp/project/Packaged \
-    -platform=Linux -server -noclient -SkipCookingEditorContent -FastCook \
+    -platform=Linux -server -noclient -FastCook \
     ${UE_BUILD_ARGS:-} && \
     for p in "${plugins[@]}"; do for d in Intermediate Binaries; do \
         if [ -d "$p/$d" ]; then rm -rf "/tmp/plugin-cache/$p/$d" && mkdir -p "/tmp/plugin-cache/$p" && cp -a "$p/$d" "/tmp/plugin-cache/$p/"; fi; \

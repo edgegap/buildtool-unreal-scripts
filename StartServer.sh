@@ -30,10 +30,6 @@ separator
 echo ARBITRIUM_PORTS_MAPPING:
 echo "$ARBITRIUM_PORTS_MAPPING"
 
-separator
-echo ENVIRONMENT VARS:
-env
-
 # initialize game server
 separator
 echo Execute command: $EXECUTABLE_PATH/$TARGET_FILE_NAME.sh -log -PORT=$ARBITRIUM_PORT_GAMEPORT_INTERNAL $UE_COMMANDLINE_ARGS
@@ -46,6 +42,7 @@ echo Gameserver exit code: $?
 
 # if server terminated terminated from Unreal, stop deployment
 separator
-echo Execute command: curl -s -X DELETE -H "Authorization: ${ARBITRIUM_DELETE_TOKEN}" "${ARBITRIUM_DELETE_URL}" | jq -r '.'
+# no env dump and no echo of this command: both would print the self-stop token to the deployment logs
+echo "Stopping deployment: DELETE ${ARBITRIUM_DELETE_URL}"
 curl -s -X DELETE -H "Authorization: ${ARBITRIUM_DELETE_TOKEN}" "${ARBITRIUM_DELETE_URL}" | jq -r '.'
 sleep infinity

@@ -13,6 +13,8 @@ Building Linux Servers with Unreal Engine no longer requires building Unreal Eng
 
 The first build compiles and cooks everything. Later builds reuse the compiled code, cooked content and derived data cache kept by Docker between builds, so they only redo what changed. Run `docker builder prune` only when you want a clean build.
 
+Tested on 2026-11-02 with `dev-slim-5.8.4` and a minimal C++ project: the first build took 1 min 40 s, the rebuild compiled in 12 s instead of 66 s thanks to the cache, and the server image started and listened on its port with no environment in the logs.
+
 Settings at the top of `BuildUploadServer.ps1` / `BuildUploadServer.sh`:
 - `server_maps`: the maps your server loads, separated by `+` (for example `/Game/Maps/Arena+/Game/Maps/Lobby`). Leave it empty to cook every map; listing only server maps can cut cook time a lot. On Windows, use `BuildUploadServer.ps1` or run the `.sh` script from WSL: Git Bash rewrites arguments starting with `/` into Windows paths.
 - `ddc_args`: derived data cache options. The default keeps a local cache in Docker. See [Share a cache with your team](#share-a-cache-with-your-team).
